@@ -22,7 +22,7 @@ public class MainClass
 
     private static List<Integer> def;
 
-    private static List<Integer> stringToList(String array)
+    /*private static List<Integer> stringToList(String array)
     {
         List<Integer> l = new ArrayList<>();
         while(!array.isEmpty())
@@ -63,14 +63,44 @@ public class MainClass
                 l.add(a);
         }
         return(l);
+    }*/
+
+    private static boolean isNumber(char ch)
+    {
+        return Stream.of('0', '1', '2', '3', '4', '5', '6', '7', '8', '9').anyMatch(c -> c == ch);
     }
 
-    private static void checkMod(List<Integer> l, List<Integer> ch, int dev)
+    private static List<Integer> stringToList(String array)
+    {
+        List<Integer> intList = new ArrayList<>();
+        boolean notEmptyElement = false;
+        int tmpInt = 0;
+        for(int i = 0; i < array.length(); i ++)
+        {
+            if(isNumber(array.charAt(i)))
+            {
+                tmpInt = tmpInt * 10 + Integer.parseInt(array.substring(i,i+1));
+                notEmptyElement = true;
+            }
+            else
+                if(notEmptyElement)
+                {
+                    intList.add(tmpInt);
+                    notEmptyElement = false;
+                    tmpInt = 0;
+                }
+        }
+        if(notEmptyElement)
+            intList.add(tmpInt);
+        return(intList);
+    }
+
+    /*private static void checkMod(List<Integer> l, List<Integer> ch, int dev)
     {
         for (int I : ch)
             if ((I % dev) == 0)
                 l.add(I);
-    }
+    }*/
 
     private static void init(String array)
     {
@@ -164,7 +194,7 @@ public class MainClass
         System.out.println("exit - выход");
     }
 
-    public static void main(String[] args)
+    private static void menu()
     {
         Scanner sc = new Scanner(System.in);
         String s;
@@ -200,5 +230,10 @@ public class MainClass
             else if(s.equals("exit"))
                 break;
         }
+    }
+
+    public static void main(String[] args)
+    {
+        menu();
     }
 }
